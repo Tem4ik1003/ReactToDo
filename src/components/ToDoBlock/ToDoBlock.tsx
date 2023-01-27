@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {Dispatch, SetStateAction, useContext} from 'react';
 import ToDoItem from "../ToDoItem/ToDoItem";
 import ButtonAdd from "../UI/ButtonAdd";
 import {ToDoItemType} from "../../hooks/ListToDos";
@@ -8,10 +8,11 @@ import {ModalContext} from "../context/ModalContext";
 
 type propsType = {
     title: string,
-    arrayToDo: Array<ToDoItemType>
+    arrayToDo: Array<ToDoItemType>,
+    setSelectTable: (value: SetStateAction<string>) => void
 }
 
-const ToDoBlock = ({title, arrayToDo}: propsType) => {
+const ToDoBlock = ({title, arrayToDo, setSelectTable}: propsType) => {
 
     const {open} = useContext(ModalContext)
 
@@ -49,7 +50,7 @@ const ToDoBlock = ({title, arrayToDo}: propsType) => {
                 bottom: "10px",
                 left: "50%",
                 transform: "translateX(-25px)"
-            }}><ButtonAdd onClick={() => open()}/>
+            }}><ButtonAdd onClick={() => {setSelectTable(title); open()}}/>
             </div>
         </div>
     );

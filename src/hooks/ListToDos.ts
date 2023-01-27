@@ -13,10 +13,10 @@ const state: ToDoItemType[] = [
 ]
 
 export const useListToDos = () => {
-    const [listToDos, setListToDos] = useState<ToDoItemType[]>([...state])
+    const [listToDos, setListToDos] = useState<ToDoItemType[]>(state)
 
     const addToDo = (title: string, typeToDo: string) => {
-        setListToDos([...state, {
+        setListToDos([...listToDos, {
             id: listToDos.length + 1,
             title: title,
             typeToDo: typeToDo,

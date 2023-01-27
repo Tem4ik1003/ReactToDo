@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {useContext, useState} from 'react';
 import ToDoBlock from "../components/ToDoBlock/ToDoBlock";
 import {arrayToDoTable} from "../data/ListToDoTable";
 import {useListToDos} from "../hooks/ListToDos";
@@ -14,12 +14,16 @@ const ToDoList = () => {
 
     const {listToDos, addToDo} = useListToDos()
 
-const {modal, close} = useContext(ModalContext)
+    const [selectTable, setSelectTable] = useState('')
+
+    const {modal} = useContext(ModalContext)
 
     const toDoBlockArray = () => {
         return arrayToDoTable.map(t => <ToDoBlock title={t.name}
                                                   key={t.id}
-                                                  arrayToDo={listToDos.filter((l) => l.typeToDo === t.name)}/>)
+                                                  arrayToDo={listToDos.filter((l) => l.typeToDo === t.name)}
+                                                  setSelectTable={setSelectTable}
+        />)
     }
     return (
         <>
@@ -34,7 +38,7 @@ const {modal, close} = useContext(ModalContext)
                 {toDoBlockArray()}
             </div>
             {modal && <Modal>
-                <AddToDo/>
+                <AddToDo typeToDo={selectTable} addToDo={addToDo}/>
             </Modal>}
         </>
     );
