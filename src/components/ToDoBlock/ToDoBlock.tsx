@@ -1,17 +1,33 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import ToDoItem from "../ToDoItem/ToDoItem";
+import ButtonAdd from "../UI/ButtonAdd";
+import {ToDoItemType} from "../../hooks/ListToDos";
+import Modal from "../Modal/Modal";
+import AddToDo from "../Forms/AddToDo";
+import {ModalContext} from "../context/ModalContext";
 
 type propsType = {
-    title: string
+    title: string,
+    arrayToDo: Array<ToDoItemType>
 }
 
-const ToDoBlock = ({title}: propsType) => {
+const ToDoBlock = ({title, arrayToDo}: propsType) => {
+
+    const {open} = useContext(ModalContext)
+
+    const toDoItemArray = () => {
+        return arrayToDo.map(t => <ToDoItem key={t.id} title={t.title} isStatus={t.status}/>)
+    }
+
     return (
         <div style={{
             width: "400px",
-            height: "400px",
+            maxHeight: "400px",
+            height: "0",
+            paddingBottom: "35%",
             border: "2px solid #FFF",
-            borderRadius: "10px"
+            borderRadius: "10px",
+            position: "relative"
         }}>
             <div style={{
                 backgroundColor: "#fff",
@@ -19,15 +35,21 @@ const ToDoBlock = ({title}: propsType) => {
                 padding: "10px 0",
                 textAlign: "center",
                 margin: "0 0 15px 0"
-            }}>Title</div>
+            }}>{title}</div>
             <div style={{
                 display: "flex",
                 flexDirection: "column",
                 gap: "10px 0",
                 padding: "0 10px"
             }}>
-                <ToDoItem title={'df'} dateAdd={'df'} isStatus={false}/>
-                <ToDoItem title={'df'} dateAdd={'df'} isStatus={false}/>
+                {toDoItemArray()}
+            </div>
+            <div style={{
+                position: "absolute",
+                bottom: "10px",
+                left: "50%",
+                transform: "translateX(-25px)"
+            }}><ButtonAdd onClick={() => open()}/>
             </div>
         </div>
     );

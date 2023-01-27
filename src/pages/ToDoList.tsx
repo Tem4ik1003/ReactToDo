@@ -1,18 +1,42 @@
-import React from 'react';
-import ToDoItem from "../components/ToDoItem/ToDoItem";
+import React, {useContext} from 'react';
 import ToDoBlock from "../components/ToDoBlock/ToDoBlock";
+import {arrayToDoTable} from "../data/ListToDoTable";
+import {useListToDos} from "../hooks/ListToDos";
+import Modal from "../components/Modal/Modal";
+import AddToDo from "../components/Forms/AddToDo";
+import {ModalContext} from "../components/context/ModalContext";
+
+type PropsType = {
+    listToDos: []
+}
 
 const ToDoList = () => {
+
+    const {listToDos, addToDo} = useListToDos()
+
+const {modal, close} = useContext(ModalContext)
+
+    const toDoBlockArray = () => {
+        return arrayToDoTable.map(t => <ToDoBlock title={t.name}
+                                                  key={t.id}
+                                                  arrayToDo={listToDos.filter((l) => l.typeToDo === t.name)}/>)
+    }
     return (
-        <div style={{
-            backgroundColor: "#3e3e3e",
-            minHeight: "100vh",
-            padding: "20px",
-            display: "flex",
-            justifyContent: "space-around"
-        }}>
-            <ToDoBlock title={'in progress'}/>
-        </div>
+        <>
+            <div style={{
+                backgroundColor: "#3e3e3e",
+                minHeight: "100vh",
+                padding: "20px",
+                display: "flex",
+                justifyContent: "space-between",
+                gap: "0 5px"
+            }}>
+                {toDoBlockArray()}
+            </div>
+            {modal && <Modal>
+                <AddToDo/>
+            </Modal>}
+        </>
     );
 };
 
