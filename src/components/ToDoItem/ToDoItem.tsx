@@ -1,11 +1,11 @@
 import React from 'react';
 
-type ToDoItem = {
+type PropsType = {
     title: string
     isStatus: boolean
 }
 
-const ToDoItem = ({title, isStatus}: ToDoItem) => {
+const ToDoItem = ({title, isStatus}: PropsType) => {
     return (
         <div style={{
             backgroundColor: "#fff",

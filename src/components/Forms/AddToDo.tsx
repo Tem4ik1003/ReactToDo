@@ -1,12 +1,12 @@
 import React, {useContext, useState} from 'react';
 import {ModalContext} from "../context/ModalContext";
 
-type propsType = {
+type PropsType = {
     typeToDo: string
     addToDo: (title:string, typeToDo:string) => void
 }
 
-const AddToDo = ({addToDo, typeToDo}: propsType) => {
+const AddToDo = ({addToDo, typeToDo}: PropsType) => {
 
     const [valueTitle, setValueTitle] = useState('')
 

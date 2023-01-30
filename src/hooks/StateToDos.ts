@@ -12,7 +12,7 @@ const state: ToDoItemType[] = [
     {id: 2,title: 'Learn to CSS', typeToDo: 'To Close', status: false}
 ]
 
-export const useListToDos = () => {
+export const useStateToDos = () => {
     const [listToDos, setListToDos] = useState<ToDoItemType[]>(state)
 
     const addToDo = (title: string, typeToDo: string) => {

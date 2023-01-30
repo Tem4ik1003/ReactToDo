@@ -1,10 +1,11 @@
 import React, {useContext, useState} from 'react';
 import ToDoBlock from "../components/ToDoBlock/ToDoBlock";
 import {arrayToDoTable} from "../data/ListToDoTable";
-import {useListToDos} from "../hooks/ListToDos";
+import {useStateToDos} from "../hooks/StateToDos";
 import Modal from "../components/Modal/Modal";
 import AddToDo from "../components/Forms/AddToDo";
 import {ModalContext} from "../components/context/ModalContext";
+import ToDoBlockCreate from "../components/ToDoBlockCreate/ToDoBlockCreate";
 
 type PropsType = {
     listToDos: []
@@ -12,7 +13,7 @@ type PropsType = {
 
 const ToDoList = () => {
 
-    const {listToDos, addToDo} = useListToDos()
+    const {listToDos, addToDo} = useStateToDos()
 
     const [selectTable, setSelectTable] = useState('')
 
@@ -31,11 +32,12 @@ const ToDoList = () => {
                 backgroundColor: "#3e3e3e",
                 minHeight: "100vh",
                 padding: "20px",
-                display: "flex",
-                justifyContent: "space-between",
-                gap: "0 5px"
+                display: "grid",
+                gridTemplateColumns: "1fr 1fr 1fr",
+                gap: "15px"
             }}>
                 {toDoBlockArray()}
+                <ToDoBlockCreate/>
             </div>
             {modal && <Modal>
                 <AddToDo typeToDo={selectTable} addToDo={addToDo}/>
