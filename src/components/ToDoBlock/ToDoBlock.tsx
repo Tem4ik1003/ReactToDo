@@ -1,4 +1,4 @@
-import React, {Dispatch, SetStateAction, useContext} from 'react';
+import React, {Dispatch, SetStateAction, useContext, useState} from 'react';
 import ToDoItem from "../ToDoItem/ToDoItem";
 import ButtonAdd from "../UI/ButtonAdd";
 import {ToDoItemType} from "../../hooks/StateToDos";
@@ -7,17 +7,31 @@ import AddToDo from "../Forms/AddToDo";
 import {ModalContext} from "../context/ModalContext";
 
 type PropsType = {
+    id: number
     title: string,
     arrayToDo: Array<ToDoItemType>,
-    setSelectTable: (value: SetStateAction<string>) => void
+    setSelectTable: (value: SetStateAction<string>) => void,
+    changeTitleBlockToDo: (id: number, newTitle: string) => void
 }
 
-const ToDoBlock = ({title, arrayToDo, setSelectTable}: PropsType) => {
+const ToDoBlock = ({id, title, arrayToDo, setSelectTable, changeTitleBlockToDo}: PropsType) => {
 
     const {open} = useContext(ModalContext)
 
+    const [isChangedTitle, setIsChangedTitle] = useState(false)
+
+    const [valueTitle, setValueTitle] = useState(title)
+
     const toDoItemArray = () => {
         return arrayToDo.map(t => <ToDoItem key={t.id} title={t.title} isStatus={t.status}/>)
+    }
+
+    const onEditTitle = () => {
+        if(!isChangedTitle) setIsChangedTitle(true)
+        else {
+            changeTitleBlockToDo(id, valueTitle.length < 1 ? title : valueTitle)
+            setIsChangedTitle(false)
+        }
     }
 
     return (
@@ -37,7 +51,9 @@ const ToDoBlock = ({title, arrayToDo, setSelectTable}: PropsType) => {
                 padding: "10px 0",
                 textAlign: "center",
                 margin: "0 0 15px 0"
-            }}>{title}</div>
+            }} onDoubleClick={() => onEditTitle()}>
+                {isChangedTitle ? <input type="text" value={valueTitle} onChange={e => setValueTitle(e.target.value)}/> : title}
+            </div>
             <div style={{
                 display: "flex",
                 flexDirection: "column",
